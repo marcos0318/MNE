@@ -15,19 +15,19 @@ with open("data/small_example.txt", "w") as fout:
         dobj_file = dobj_files[i]
         nsubj_file = nsubj_files[i]
 
-        with open(amod_file, "r") as fin:
+        with open(join(my_path, amod_file), "r") as fin:
             contents = fin.readlines()
             new_contents = ["amod " + line for line in contents]
             for line in new_contents:
                 fout.write(line)
 
-        with open(nsubj_file, "r") as fin:
+        with open(join(my_path, nsubj_file), "r") as fin:
             contents = fin.readlines()
             new_contents = ["nsubj " + line for line in contents]
             for line in new_contents:
                 fout.write(line)
 
-        with open(dobj_file, "r") as fin:
+        with open(join(my_path, dobj_file), "r") as fin:
             contents = fin.readlines()
             new_contents = ["dobj " + line for line in contents]
             for line in new_contents:
