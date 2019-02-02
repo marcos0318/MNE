@@ -5,15 +5,11 @@ import sys
 import os
 import heapq
 from timeit import default_timer
-from copy import deepcopy
 from collections import defaultdict
 import threading
 import itertools
 import numpy as np
-import networkx as nx
-import Random_walk
-from gensim.models import Word2Vec
-from gensim.utils import keep_vocab_item, call_on_class_only
+from gensim.utils import call_on_class_only
 from gensim.utils import keep_vocab_item
 from gensim.models.keyedvectors import KeyedVectors, Vocab
 import json
