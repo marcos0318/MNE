@@ -8,7 +8,7 @@ nsubj_files = [f for f in only_files if "nsubj" in f]
 dobj_files = [f for f in only_files if "dobj" in f]
 
 
-num_example = 10
+num_example = 1
 with open("data/small_example.txt", "w") as fout:
     for i in range(num_example):
         amod_file = amod_files[i]
