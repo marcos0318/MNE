@@ -88,13 +88,10 @@ def train_deepwalk_embedding(walks, iteration=None):
     return model
 
 
-def train_embedding(current_embedding, walks, layer_id, iter=10, info_size=10, base_weight=1):
-    training_data = list()
-    for walk in walks:
-        tmp_walk = list()
-        for node in walk:
-            tmp_walk.append(str(node))
-        training_data.append(tmp_walk)
+def train_embedding(current_embedding, data, layer_id, iter=10, info_size=10, base_weight=1):
+    training_data = data
+    # training_data is a list of list of strings, which contains the words
+
     base_embedding = dict()
     if current_embedding is not None:
         for pos in range(len(current_embedding['index2word'])):
@@ -116,12 +113,10 @@ def train_embedding(current_embedding, walks, layer_id, iter=10, info_size=10, b
 
 
 def train_model(network_data):
-    base_network = network_data['Base']
-    base_G = Random_walk.RWGraph(get_G_from_edges(base_network), 'directed', 1, 1)
-    print('finish building the graph')
-    base_G.preprocess_transition_probs()
-    base_walks = base_G.simulate_walks(20, 10)
-    base_embedding, _, _, index2word = train_embedding(None, base_walks, 'Base', 100, 10, 1)
+    base_pairs = network_data['Base']
+    print('Train base first')
+
+    base_embedding, _, _, index2word = train_embedding(None, base_pairs, 'Base', 100, 10, 1)
     final_model = dict()
     final_model['base'] = base_embedding
     final_model['tran'] = dict()
@@ -135,11 +130,7 @@ def train_model(network_data):
         if layer_id not in final_model['addition']:
             final_model['addition'][layer_id] = zeros((len(final_model['index2word']), 10), dtype=REAL)
         tmp_data = network_data[layer_id]
-        # start to do the random walk on a layer
-        layer_G = Random_walk.RWGraph(get_G_from_edges(tmp_data), 'directed', 1, 1)
-        layer_G.preprocess_transition_probs()
-        layer_walks = layer_G.simulate_walks(20, 10)
-        tmp_base, tmp_tran, tmp_local, tmp_index2word = train_embedding(final_model, layer_walks, layer_id, 20, 10, 0)
+        tmp_base, tmp_tran, tmp_local, tmp_index2word = train_embedding(final_model, tmp_data, layer_id, 20, 10, 0)
         base_embedding_dict = dict()
         local_embedding_dict = dict()
         for pos in range(len(tmp_index2word)):
